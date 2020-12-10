@@ -34,6 +34,16 @@ class Product(models.Model):
     producturl=models.URLField()
     description=models.TextField()
 
+    def discountAmount(self):
+        self.discount=self.price * .05
+        return self.discount
+
+#need to figure out why this is not working
+#something to do with the function itself
+    def discountPrice(self):
+        disc=self.discountAmount()
+        self.discountedPrice=self.price-disc 
+
     def __str__(self):
         return self.productname
 
