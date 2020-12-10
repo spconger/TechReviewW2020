@@ -27,6 +27,8 @@ class ProductTest(TestCase):
         disc = self.product.price * .05
         self.assertEqual(self.product.discountAmount(),disc)
 
+    #the reason this test failed in the video was that
+    #there was no return statement in the model function
     def test_discountedAmount(self):
         disc=self.product.price * (1 -.05)
         self.assertEqual(self.product.discountPrice(),disc)

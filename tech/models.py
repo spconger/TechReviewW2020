@@ -38,11 +38,11 @@ class Product(models.Model):
         self.discount=self.price * .05
         return self.discount
 
-#need to figure out why this is not working
-#something to do with the function itself
+#The problem in test was that this function did not have a return statement
     def discountPrice(self):
         disc=self.discountAmount()
-        self.discountedPrice=self.price-disc 
+        return self.discountedPrice=self.price-disc 
+        
 
     def __str__(self):
         return self.productname
