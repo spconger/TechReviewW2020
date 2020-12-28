@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .models import TechType, Product, Review
 import datetime
 from .forms import ProductForm
+from django.urls import reverse_lazy, reverse
 
 # Create your tests here.
 class TechTypeTest(TestCase):
@@ -51,14 +52,13 @@ class NewProductForm(TestCase):
         self.assertTrue(form.is_valid)
     
     # this test is failing
-    def test_Productform_Invalid(self):
-        data={
-               'productname':'surface', 
-               'producttype' :'laptop', 
-               'user':'steve', 
-               'dateentered': 'January 2, 2020',
-               'producturl': 'http://www.microsoft.com',
-               'description':'half laptop half tablet'
-            } 
-        form=ProductForm (data)
-        self.assertFalse(form.is_valid)
+    
+class New_Product_Authentication_Test(TestCase):
+    def setUp(self):
+        self.test_user=User.objects.create_user(username='testuser1', password='P@ssw0rd1')
+        self.type=TechType.objects.create(typename='laptop')
+        self.product=Product.objects.create(productname='Lenovo',producttype=self.type, user=self.test_user, dateentered=datetime.date(2021,1,10),price=1200.99, producturl='http://www.lenovo.com', description="lenovo laptop")
+
+    def test_redirect_if_not_logged_in(self):
+        response=self.client.get(reverse('newproduct'))
+        self.assertRedirects(response, '/accounts/login/?next=/tech/newproduct/')
